@@ -1,0 +1,51 @@
+group 'bottimus'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'application'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+
+    maven {
+        url 'http://lutece.paris.fr/nexus/content/repositories/lutece_third_party'
+    }
+
+    maven {
+        url 'https://github.com/DV8FromTheWorld/Maven-Repository/raw/master/repo'
+    }
+}
+
+dependencies {
+    compile 'net.dv8tion:JDA:1.2.2_139'
+    compile 'org.reflections:reflections:0.9.9'
+    compile 'org.slf4j:slf4j-api:1.7.5'
+    compile 'org.slf4j:slf4j-simple:1.6.4'
+    compile 'uk.co.caprica:vlcj:3.8.0'
+}
+
+mainClassName = 'com.flaiker.bottimus.Main'
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+        }
+        resources {
+            srcDir 'res'
+        }
+    }
+}
+
+jar {
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    manifest {
+        attributes 'Main-Class': 'com.flaiker.bottimus.Main'
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
